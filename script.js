@@ -1,69 +1,78 @@
 (() => {
   const intro = document.getElementById("intro");
-  const countdown = document.getElementById("countdown");
-  const scare = document.getElementById("scare");
-  const number = document.getElementById("number");
-  let timer = null;
+  const waiting = document.getElementById("waiting");
+  const reveal = document.getElementById("reveal");
+  const timerText = document.getElementById("timer");
+  const progress = document.getElementById("progress");
+  const progressWrap = document.querySelector(".progress");
+  let interval = null;
+  let remaining = 5;
   let audioContext = null;
 
-  document.getElementById("start").addEventListener("click", () => {
-    intro.hidden = true;
-    countdown.hidden = false;
-    let remaining = 5;
-    number.textContent = remaining;
-
-    // Prepare a short, synthesized spooky sound after the user's click.
-    // It is intentionally brief and not extremely loud.
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) audioContext = new AudioCtx();
-    } catch (_) { audioContext = null; }
-
-    timer = window.setInterval(() => {
-      remaining -= 1;
-      number.textContent = remaining;
-      if (remaining <= 0) {
-        window.clearInterval(timer);
-        countdown.hidden = true;
-        scare.hidden = false;
-        playSound();
-      }
-    }, 1000);
-  });
-
+  document.getElementById("start").addEventListener("click", start);
   document.getElementById("cancel").addEventListener("click", reset);
   document.getElementById("again").addEventListener("click", reset);
 
+  function start() {
+    intro.hidden = true;
+    reveal.hidden = true;
+    waiting.hidden = false;
+    remaining = 5;
+    timerText.textContent = "05";
+    progress.style.width = "0";
+    progressWrap.classList.remove("run");
+    // Trigger the progress animation after the browser has applied the reset.
+    requestAnimationFrame(() => progressWrap.classList.add("run"));
+    interval = window.setInterval(() => {
+      remaining -= 1;
+      timerText.textContent = String(remaining).padStart(2, "0");
+      if (remaining <= 0) {
+        window.clearInterval(interval);
+        interval = null;
+        waiting.hidden = true;
+        reveal.hidden = false;
+        playSound();
+      }
+    }, 1000);
+  }
+
   function reset() {
-    if (timer) window.clearInterval(timer);
-    timer = null;
-    scare.hidden = true;
-    countdown.hidden = true;
+    if (interval !== null) window.clearInterval(interval);
+    interval = null;
+    reveal.hidden = true;
+    waiting.hidden = true;
     intro.hidden = false;
-    if (audioContext && audioContext.state === "running") audioContext.suspend();
+    if (audioContext && audioContext.state === "running") audioContext.suspend().catch(() => {});
   }
 
   function playSound() {
-    if (!audioContext) return;
-    audioContext.resume().then(() => {
-      const now = audioContext.currentTime;
-      const oscillator = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      const filter = audioContext.createBiquadFilter();
-      oscillator.type = "sawtooth";
-      oscillator.frequency.setValueAtTime(180, now);
-      oscillator.frequency.exponentialRampToValueAtTime(620, now + 0.12);
-      oscillator.frequency.exponentialRampToValueAtTime(95, now + 0.55);
-      filter.type = "lowpass";
-      filter.frequency.value = 1300;
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.linearRampToValueAtTime(0.12, now + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.65);
-      oscillator.connect(filter);
-      filter.connect(gain);
-      gain.connect(audioContext.destination);
-      oscillator.start(now);
-      oscillator.stop(now + 0.7);
-    }).catch(() => {});
+    // Sound is short and synthesized locally; it does not load external audio.
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      audioContext = audioContext || new AudioCtx();
+      audioContext.resume().then(() => {
+        const now = audioContext.currentTime;
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(115, now);
+        osc.frequency.exponentialRampToValueAtTime(260, now + 0.18);
+        osc.frequency.exponentialRampToValueAtTime(72, now + 0.85);
+        filter.type = "lowpass";
+        filter.frequency.value = 850;
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.075, now + 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.95);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.start(now);
+        osc.stop(now + 1);
+      }).catch(() => {});
+    } catch (_) {
+      // The visual effect still works if audio is unavailable.
+    }
   }
 })();

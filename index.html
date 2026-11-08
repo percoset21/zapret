@@ -3,37 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#08090d">
-  <title>DON'T LOOK AWAY</title>
+  <meta name="theme-color" content="#06070b">
+  <title>1337 — THE SIGNAL</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="wrap">
-    <div class="topline"><span>/// EXPERIMENT 013</span><span class="live"><i></i> SIGNAL ACTIVE</span></div>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <main class="site">
+    <header class="topbar">
+      <a class="brand" href="./"><span class="brand-symbol">◈</span> 1337<span class="brand-light">/NIGHT</span></a>
+      <span class="signal"><i></i> SIGNAL FOUND</span>
+    </header>
+
     <section class="intro" id="intro">
-      <p class="tiny">A SMALL TEST OF COURAGE</p>
-      <h1>DON'T LOOK<br><em>AWAY.</em></h1>
-      <p class="sub">Надень наушники… или лучше не надо.<br>Посмотри на экран и дождись конца.</p>
-      <button id="start">НАЧАТЬ ТЕСТ <b>↗</b></button>
-      <p class="note">Безопасный вымышленный скример. Без крови и жестоких сцен.</p>
+      <p class="eyebrow">CASE FILE №0137 <span>•</span> UNKNOWN SIGNAL</p>
+      <h1>THE<br><em> SIGNAL</em></h1>
+      <p class="lead">Кажется, кто-то смотрит на тебя из темноты.</p>
+      <p class="description">Небольшой хоррор-эффект с обратным отсчётом.<br>Запускай, только когда готов.</p>
+      <button class="primary" id="start">НАЧАТЬ <span>↗</span></button>
+      <p class="disclaimer">Вымышленный визуальный эффект. Без крови и жестоких сцен.</p>
     </section>
-    <section class="countdown" id="countdown" hidden>
-      <p class="tiny">PLEASE KEEP LOOKING</p>
-      <div id="number">5</div>
-      <p class="sub">Не закрывай страницу…</p>
-      <button class="quiet" id="cancel">ОТМЕНИТЬ</button>
+
+    <section class="waiting" id="waiting" hidden aria-live="polite">
+      <p class="eyebrow">CONNECTION ESTABLISHED</p>
+      <div class="timer" id="timer">05</div>
+      <p class="waiting-copy">Не отключай сигнал<span class="dots"></span></p>
+      <div class="progress"><span id="progress"></span></div>
+      <button class="secondary" id="cancel">ОТМЕНИТЬ</button>
     </section>
-    <section class="scare" id="scare" hidden aria-live="assertive">
-      <div class="noise"></div>
-      <div class="face" aria-hidden="true">
-        <div class="brow"></div>
-        <div class="eyes"><i></i><i></i></div>
-        <div class="mouth"><span></span></div>
+
+    <section class="reveal" id="reveal" hidden aria-live="assertive">
+      <div class="vignette"></div>
+      <div class="scanlines"></div>
+      <div class="static"></div>
+      <div class="warning">SIGNAL LOST <span>///</span></div>
+
+      <div class="creature" aria-hidden="true">
+        <div class="head">
+          <div class="hood"></div>
+          <div class="face">
+            <div class="brow"></div>
+            <div class="eyes"><i><b></b></i><i><b></b></i></div>
+            <div class="nose"></div>
+            <div class="mouth"><span></span></div>
+          </div>
+        </div>
+        <div class="body-shadow"></div>
       </div>
-      <div class="scare-word">БУ!</div>
-      <button id="again">ЕЩЁ РАЗ</button>
+
+      <div class="reveal-title">Я ЗДЕСЬ.</div>
+      <p class="reveal-caption">DON'T TURN AROUND</p>
+      <button class="again" id="again">ЗАПУСТИТЬ СНОВА ↻</button>
     </section>
-    <footer><span>1337 // NIGHT MODE</span><span>YOU WERE WARNED</span></footer>
+
+    <footer><span>1337 / NIGHT ARCHIVE</span><span>FICTIONAL EXPERIENCE</span></footer>
   </main>
   <script src="script.js"></script>
 </body>
