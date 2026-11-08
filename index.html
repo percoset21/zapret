@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090d">
+  <title>DON'T LOOK AWAY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <div class="topline"><span>/// EXPERIMENT 013</span><span class="live"><i></i> SIGNAL ACTIVE</span></div>
+    <section class="intro" id="intro">
+      <p class="tiny">A SMALL TEST OF COURAGE</p>
+      <h1>DON'T LOOK<br><em>AWAY.</em></h1>
+      <p class="sub">Надень наушники… или лучше не надо.<br>Посмотри на экран и дождись конца.</p>
+      <button id="start">НАЧАТЬ ТЕСТ <b>↗</b></button>
+      <p class="note">Безопасный вымышленный скример. Без крови и жестоких сцен.</p>
+    </section>
+    <section class="countdown" id="countdown" hidden>
+      <p class="tiny">PLEASE KEEP LOOKING</p>
+      <div id="number">5</div>
+      <p class="sub">Не закрывай страницу…</p>
+      <button class="quiet" id="cancel">ОТМЕНИТЬ</button>
+    </section>
+    <section class="scare" id="scare" hidden aria-live="assertive">
+      <div class="noise"></div>
+      <div class="face" aria-hidden="true">
+        <div class="brow"></div>
+        <div class="eyes"><i></i><i></i></div>
+        <div class="mouth"><span></span></div>
+      </div>
+      <div class="scare-word">БУ!</div>
+      <button id="again">ЕЩЁ РАЗ</button>
+    </section>
+    <footer><span>1337 // NIGHT MODE</span><span>YOU WERE WARNED</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
